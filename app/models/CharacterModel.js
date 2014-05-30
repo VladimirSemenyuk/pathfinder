@@ -198,6 +198,7 @@
             this.featuresCollection.on('add remove reset', function() {
                 this._setSpeed();
                 this._setArmorClass();
+                this._updateSkills();
             }, this);
 
             this.on({
@@ -222,10 +223,34 @@
         },
 
         _updateSkills: function() {
-            var self = this;
+            var self = this,
+                featuresSkillModsRaw = _(self.featuresCollection.pluck('skillMods'))
+                    .without(undefined)
+                    .value(),
+                featuresSkillMods = {};
+
+            for (var i = 0; i < featuresSkillModsRaw.length; i++) {
+                for (var f in featuresSkillModsRaw[i]) {
+                    if (featuresSkillModsRaw[i].hasOwnProperty(f)) {
+                        if (featuresSkillMods[f]) {
+                            featuresSkillMods[f] += featuresSkillModsRaw[i][f];
+                        } else{
+                            featuresSkillMods[f] = featuresSkillModsRaw[i][f];
+                        }
+                    }
+                }
+            }
 
             this.skillsCollection.each(function(skill) {
-                skill.set('abilityMod', self.get(skill.get('ability') + 'Mod'));
+                var mods = {
+                    ability: self.get(skill.get('ability') + 'Mod')
+                };
+
+                if (featuresSkillMods[skill.get('id')]) {
+                    mods.other = featuresSkillMods[skill.get('id')];
+                }
+
+                skill.set('mods', mods);
             });
         },
 

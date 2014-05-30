@@ -19,6 +19,8 @@
         initialize: function(data, args) {
             var features = data.features || [];
 
+
+
             this.featuresCollection = new pcg.collections.FeaturesCollection(features);
 
             delete data.features;

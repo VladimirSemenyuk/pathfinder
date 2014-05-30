@@ -24,10 +24,12 @@
             id: 'halfOrc',
             name: 'Half-Orc',
             abilityMods: {
+                wis: 2,
             },
             size: pcg.sizes.get('medium'),
             features:[
-                pcg.traits.get('darkvision').clone()
+                pcg.traits.get('darkvision').clone(),
+                pcg.traits.get('intimidating').clone()
             ]
         }
 

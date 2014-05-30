@@ -16,8 +16,6 @@
             _.extend(this, args);
 
             this.render();
-
-            console.log(this.collection);
         },
 
         render: function() {
