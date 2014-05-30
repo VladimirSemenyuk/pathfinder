@@ -29,7 +29,7 @@
                 will: 0
             },
 
-            //freeSkillRanks: 0
+            freeSkillPoints: 0
         },
 
         computeds: {
@@ -396,9 +396,9 @@
 
             this.levelsCollection.add(level);
 
-            //var skillRanks = this.get('intMod') + level.get('skillRanksPerLevel');
+            var skillPoints = this.get('freeSkillPoints') + this.get('intMod') + level.get('skillPointsPerLevel');
 
-            //this.set('freeSkillRanks', this.get('freeSkillRanks') + skillRanks);
+            this.set('freeSkillPoints', this.get('freeSkillPoints') + skillPoints);
 
             return this.levelsCollection.length;
         },

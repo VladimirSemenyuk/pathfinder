@@ -11,8 +11,8 @@
             refSave: 0,
             willSave: 0,
 
-            freeSkillRanks: 0,
-            skillRanksPerLevel: 2
+            /*freeSkillsPoints: 0,*/
+             skillPointsPerLevel: 2
 
         },
 
@@ -36,11 +36,11 @@
 
             this.skillsCollection = new pcg.collections.SkillsCollection();
 
-            if (this._character) {
+            /*if (this._character) {
                 var skillRanks = this._character.get('intMod') + this.get('skillRanksPerLevel');
 
                 this.set('freeSkillRanks', this.get('freeSkillRanks') + skillRanks);
-            }
+            }*/
         },
 
         initSkills: function() {
