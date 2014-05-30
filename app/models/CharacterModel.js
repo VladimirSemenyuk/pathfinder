@@ -27,7 +27,9 @@
                 fort: 0,
                 ref: 0,
                 will: 0
-            }
+            },
+
+            //freeSkillRanks: 0
         },
 
         computeds: {
@@ -182,6 +184,7 @@
 
             this._initSkills();
             this._updateSkills();
+            this._updateSkillsRanks();
 
             this.levelsCollection.on({
                 'add remove reset': this._setLevelCount,
@@ -193,12 +196,16 @@
                 this._setBaseAttack();
                 this._setSaveThrows();
                 this._setClassSkills();
+                this._setBaseAttack();
+                this._updateSkillsRanks();
+
             }, this);
 
             this.featuresCollection.on('add remove reset', function() {
                 this._setSpeed();
                 this._setArmorClass();
                 this._updateSkills();
+                this._updateSkillsRanks();
             }, this);
 
             this.on({
@@ -209,6 +216,9 @@
                 },
                 'change:strMod change:dexMod change:conMod change:intMod change:wisMod change:chaMod': function() {
                     this._updateSkills();
+                },
+                'change:level': function() {
+                    this._updateSkillsRanks();
                 }
             }, this);
 
@@ -252,6 +262,29 @@
 
                 skill.set('mods', mods);
             });
+        },
+
+        _updateSkillsRanks: function() {
+            var skillsCollections = this.levelsCollection.map(function(level) {
+                return level.skillsCollection;
+            }),
+            skillsIds = pcg.skills.pluck('id'),
+            ranksObj = {};
+
+            for (var i = 0; i < skillsIds.length; i++) {
+                ranksObj[skillsIds[i]] = 0
+            }
+
+            for (var j = 0; j < skillsCollections.length; j++) {
+                skillsCollections[j].each(function(skill) {
+                    ranksObj[skill.get('id')] += skill.get('rank');
+                });
+            }
+
+            this.skillsCollection.each(function(skill) {
+                skill.set('rank', ranksObj[skill.get('id')]);
+            });
+
         },
 
         _setLevelCount: function() {
@@ -355,8 +388,17 @@
             return _.uniq(this.activeLevelsCollection.pluck('class'));
         },
 
-        addLevel: function(level) {
+        _addLevel: function(level) {
+            level._character = this;
+
+            level.initSkills();
+            //level._updateSkills();
+
             this.levelsCollection.add(level);
+
+            //var skillRanks = this.get('intMod') + level.get('skillRanksPerLevel');
+
+            //this.set('freeSkillRanks', this.get('freeSkillRanks') + skillRanks);
 
             return this.levelsCollection.length;
         },
@@ -388,7 +430,7 @@
 
                 nextLevel.set(settings);
 
-                this.addLevel(nextLevel);
+                this._addLevel(nextLevel);
 
                 return nextLevel;
             } else {

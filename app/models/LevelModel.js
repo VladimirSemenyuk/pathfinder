@@ -9,7 +9,11 @@
 
             fortSave: 0,
             refSave: 0,
-            willSave: 0
+            willSave: 0,
+
+            freeSkillRanks: 0,
+            skillRanksPerLevel: 2
+
         },
 
         computeds: {
@@ -29,6 +33,24 @@
             delete data.features;
 
             _.extend(this, args);
+
+            this.skillsCollection = new pcg.collections.SkillsCollection();
+
+            if (this._character) {
+                var skillRanks = this._character.get('intMod') + this.get('skillRanksPerLevel');
+
+                this.set('freeSkillRanks', this.get('freeSkillRanks') + skillRanks);
+            }
+        },
+
+        initSkills: function() {
+            for (var i = 0; i < pcg.skills.length; i++) {
+                var skill = pcg.skills.at(i).clone();
+
+                skill._character = this._character;
+
+                this.skillsCollection.add(skill);
+            }
         }
     });
 })();

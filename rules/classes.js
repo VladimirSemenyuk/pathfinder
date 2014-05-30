@@ -18,7 +18,8 @@
                 pcg.skills.get('ride'),
                 pcg.skills.get('survival'),
                 pcg.skills.get('swim')
-            ]
+            ],
+            skillRanksPerLevel: 4
         }
     ]);
 })();
