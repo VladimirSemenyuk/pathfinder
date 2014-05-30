@@ -33,8 +33,13 @@
         model: chr
     });
 
-    chr.addLevelByClass('Barbarian');
-    chr.addLevelByClass('Barbarian');
+    var skills = new pcg.views.SkillsListView({
+        $placeholder: $('body'),
+        collection: chr.skillsCollection
+    });
+
+    chr.addLevelByClassName('Barbarian');
+    chr.addLevelByClassName('Barbarian');
 
 
 

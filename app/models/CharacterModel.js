@@ -181,6 +181,7 @@
             this.skillsCollection = new pcg.collections.SkillsCollection();
 
             this._initSkills();
+            this._updateSkills();
 
             this.levelsCollection.on({
                 'add remove reset': this._setLevelCount,
@@ -199,10 +200,15 @@
                 this._setArmorClass();
             }, this);
 
-            this.on('change:race', function() {
-                this._setActiveFeatures();
-                this._setSpeed();
-                this._setArmorClass();
+            this.on({
+                'change:race': function() {
+                    this._setActiveFeatures();
+                    this._setSpeed();
+                    this._setArmorClass();
+                },
+                'change:strMod change:dexMod change:conMod change:intMod change:wisMod change:chaMod': function() {
+                    this._updateSkills();
+                }
             }, this);
 
             this._setActiveFeatures();
@@ -213,6 +219,14 @@
             for (var i = 0; i < pcg.skills.length; i++) {
                 this.skillsCollection.add(pcg.skills.at(i).clone());
             }
+        },
+
+        _updateSkills: function() {
+            var self = this;
+
+            this.skillsCollection.each(function(skill) {
+                skill.set('abilityMod', self.get(skill.get('ability') + 'Mod'));
+            });
         },
 
         _setLevelCount: function() {
@@ -322,7 +336,7 @@
             return this.levelsCollection.length;
         },
 
-        addLevelByClass: function(clss) {
+        addLevelByClassName: function(clss) {
             if (typeof  clss !== 'string') {
                 clss = clss.get('name');
             }

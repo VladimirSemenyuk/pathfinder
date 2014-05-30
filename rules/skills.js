@@ -38,7 +38,7 @@
             id: 'disableDevice',
             name: 'Disable Device',
             ability: 'dex',
-            untrained: false
+            isUntrained: false
         },
         {
             id: 'disguise',
@@ -59,7 +59,7 @@
             id: 'handleAnimal',
             name: 'Handle Animal',
             ability: 'cha',
-            untrained: false
+            isUntrained: false
         },
         {
             id: 'heal',
@@ -75,67 +75,67 @@
             id: 'knowledgeArcana',
             name: 'Knowledge (arcana)',
             ability: 'int',
-            untrained: false
+            isUntrained: false
         },
         {
             id: 'knowledgeDungeoneering',
             name: 'Knowledge (dungeoneering)',
             ability: 'int',
-            untrained: false
+            isUntrained: false
         },
         {
             id: 'knowledgeEngineering',
             name: 'Knowledge (engineering)',
             ability: 'int',
-            untrained: false
+            isUntrained: false
         },
         {
             id: 'knowledgeGeography',
             name: 'Knowledge (geography)',
             ability: 'int',
-            untrained: false
+            isUntrained: false
         },
         {
             id: 'knowledgeHistory',
             name: 'Knowledge (history)',
             ability: 'int',
-            untrained: false
+            isUntrained: false
         },
         {
             id: 'knowledgeLocal',
             name: 'Knowledge (local)',
             ability: 'int',
-            untrained: false
+            isUntrained: false
         },
         {
             id: 'knowledgeNature',
             name: 'Knowledge (nature)',
             ability: 'int',
-            untrained: false
+            isUntrained: false
         },
         {
             id: 'knowledgeNobility',
             name: 'Knowledge (nobility)',
             ability: 'int',
-            untrained: false
+            isUntrained: false
         },
         {
             id: 'knowledgePlanes',
             name: 'Knowledge (planes)',
             ability: 'int',
-            untrained: false
+            isUntrained: false
         },
         {
             id: 'knowledgeReligion',
             name: 'Knowledge (religion)',
             ability: 'int',
-            untrained: false
+            isUntrained: false
         },
         {
             id: 'linguistics',
             name: 'Linguistics',
             ability: 'int',
-            untrained: false
+            isUntrained: false
         },
         {
             id: 'perception',
@@ -151,7 +151,7 @@
             id: 'profession',
             name: 'Profession',
             ability: 'wis',
-            untrained: false
+            isUntrained: false
         },
         {
             id: 'ride',
@@ -167,13 +167,13 @@
             id: 'sleightOfHand',
             name: 'Sleight of Hand',
             ability: 'dex',
-            untrained: false
+            isUntrained: false
         },
         {
             id: 'spellcraft',
             name: 'Spellcraft',
             ability: 'int',
-            untrained: false
+            isUntrained: false
         },
         {
             id: 'stealth',
@@ -193,13 +193,13 @@
         {
             id: 'swim',
             name: 'Swim',
-            ability: 'Str'
+            ability: 'str'
         },
         {
             id: 'useMagicDevice',
             name: 'Use Magic Device',
             ability: 'cha',
-            untrained: false
+            isUntrained: false
         }
     ]);
 })();
