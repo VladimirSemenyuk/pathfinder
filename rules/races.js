@@ -18,6 +18,19 @@
                 pcg.traits.get('darkvision').clone(),
                 pcg.traits.get('defensiveTraining').clone()
             ]
+        },
+
+        {
+            id: 'halfOrc',
+            name: 'Half-Orc',
+            abilityMods: {
+            },
+            size: pcg.sizes.get('medium'),
+            features:[
+                pcg.traits.get('darkvision').clone()
+            ]
         }
+
+
     ]);
 })();

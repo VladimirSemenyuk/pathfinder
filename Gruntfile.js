@@ -17,6 +17,7 @@ module.exports = function(grunt) {
                     'rules/config.js',
                     'rules/sizes.js',
                     'rules/features.js',
+                    'rules/skills.js',
                     'rules/races.js',
                     'rules/classes.js',
                     'rules/levels.js'

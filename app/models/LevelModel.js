@@ -3,7 +3,7 @@
         defaults: {
             order: 1,
             description: '',
-            class: new pcg.models.Class(),
+            class: undefined,
 
             baseAttackBonus: 0,
 

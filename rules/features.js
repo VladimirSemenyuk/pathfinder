@@ -21,6 +21,14 @@
             description: 'Can see in the dark up to 60 feet.'
         },
         {
+            id: 'intimidating',
+            name: 'Intimidating',
+            description: 'Character receives a +2 racial bonus on Intimidate skill checks.',
+            skillMods: {
+                intimidate: 2
+            }
+        },
+        {
             id: 'defensiveTraining',
             name: 'Defensive Training',
             description: 'Get a +4 dodge bonus to AC against monsters of the giant subtype.',
@@ -32,7 +40,7 @@
                     }
                 })
             }
-        },
+        }
 
 
 

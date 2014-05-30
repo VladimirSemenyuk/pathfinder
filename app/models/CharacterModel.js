@@ -178,31 +178,41 @@
             this.levelsCollection = new pcg.collections.LevelsCollection();
             this.activeLevelsCollection = new pcg.collections.LevelsCollection();
             this.featuresCollection = new pcg.collections.FeaturesCollection();
+            this.skillsCollection = new pcg.collections.SkillsCollection();
+
+            this._initSkills();
 
             this.levelsCollection.on({
                 'add remove reset': this._setLevelCount,
                 'add remove reset change:active': this._resetActiveLevels
             }, this);
 
-            this.activeLevelsCollection.on({
-                'add remove reset': this._setActiveFeatures,
-                'add remove reset': this._setBaseAttack,
-                'add remove reset': this._setSaveThrows
+            this.activeLevelsCollection.on('add remove reset', function() {
+                this._setActiveFeatures();
+                this._setBaseAttack();
+                this._setSaveThrows();
+                this._setClassSkills();
             }, this);
 
-            this.featuresCollection.on({
-                'add remove reset': this._setSpeed,
-                'add remove reset': this._setArmorClass
+            this.featuresCollection.on('add remove reset', function() {
+                this._setSpeed();
+                this._setArmorClass();
             }, this);
 
-            this.on({
-                'change:race': this._setActiveFeatures,
-                'change:race': this._setSpeed,
-                'change:race': this._setArmorClass
+            this.on('change:race', function() {
+                this._setActiveFeatures();
+                this._setSpeed();
+                this._setArmorClass();
             }, this);
 
             this._setActiveFeatures();
             this._setSaveThrows();
+        },
+
+        _initSkills: function() {
+            for (var i = 0; i < pcg.skills.length; i++) {
+                this.skillsCollection.add(pcg.skills.at(i).clone());
+            }
         },
 
         _setLevelCount: function() {
@@ -279,6 +289,31 @@
             });
 
             this.set('saveThrows', result);
+        },
+
+        _setClassSkills: function() {
+            var skills = [],
+                skillNames = [],
+                classes = this._getClasses();
+
+            _.each(_.pluck(classes, 'classSkillsCollection'), function(collection) {
+                for (var i = 0; i < collection.length; i++) {
+                    var skill = collection.at(i);
+
+                    if (skillNames.indexOf(skill.get('name')) === -1) {
+                        skillNames.push(skill.get('name'));
+                        skills.push(skill);
+                    }
+                }
+            });
+
+            for (var i = 0; i< skills.length; i++) {
+                this.skillsCollection.get(skills[i].get('id')).set('isClassSkill', true)
+            }
+        },
+
+        _getClasses: function() {
+            return _.uniq(this.activeLevelsCollection.pluck('class'));
         },
 
         addLevel: function(level) {
