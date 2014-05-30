@@ -33,6 +33,34 @@
                     }
                 }
             }
+        },
+
+        setRank: function(rank) {
+            this.set('rank', rank);
+
+            if (this._character) {
+                this._character.trigger('change:level');
+
+                return this._character.skillsCollection.get(this.get('id')).get('level');
+            }
+        },
+
+        addRank: function(delta) {
+            if (!this._character || (this.get('rank') + delta < 0)) {
+                return;
+            }
+
+            if (this._character.get('level') >= this.get('rank') + delta) {
+                return this.setRank(this.get('rank') + delta);
+            }
+        },
+
+        increaseRank: function() {
+            return  this.addRank(1);
+        },
+
+        decreaseRank: function() {
+            return  this.addRank(-1);
         }
     });
 })();
