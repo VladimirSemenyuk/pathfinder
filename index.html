@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head lang="ru_RU">
+    <meta charset="UTF-8">
+    <title></title>
+
+    <script src="vendor/lodash.min.js"></script>
+    <script src="vendor/jquery.js"></script>
+    <script src="vendor/backbone.js"></script>
+    <script src="vendor/backbone.ribs.js"></script>
+
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <script src="dist/index.js"></script>
+    <script src="dist/rules.js"></script>
+
+    <!--link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.css"-->
+
+
+</head>
+<body>
+
+</body>
+
+<script>
+    var chr = new pcg.models.Character({
+        race: pcg.races.get('dwarf')
+    });
+
+    var main = new pcg.views.CharacterMainSettingsView({
+        $placeholder: $('body'),
+        model: chr
+    });
+
+    var form = new pcg.views.AbilitiesFormView({
+        $placeholder: $('body'),
+        model: chr
+    });
+
+
+
+
+</script>
+
+</html>
