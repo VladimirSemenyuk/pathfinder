@@ -7,12 +7,7 @@
 
             baseAttackBonus: 0,
 
-            fortSave: 0,
-            refSave: 0,
-            willSave: 0,
-
             /*freeSkillsPoints: 0,*/
-             skillPointsPerLevel: 2
 
         },
 
@@ -21,6 +16,12 @@
                 deps: ['class'],
                 get: function(clss) {
                     return clss.get('name');
+                }
+            },
+            skillPointsPerLevel: {
+                deps: ['class'],
+                get: function(clss) {
+                    return clss.get('skillPointsPerLevel');
                 }
             }
         },
@@ -51,6 +52,20 @@
 
                 this.skillsCollection.add(skill);
             }
+        },
+
+        initHp: function() {
+
+
+            var rand =  Math.round(0.5 + Math.random()*(this.get('class').get('hitDice'))),
+                misk = this._character.get('conMod');
+
+
+            this.set('hp', rand + misk);
+        },
+
+        setMaxHp: function() {
+            this.set('hp', this.get('class').get('hitDice') + this._character.get('conMod'));
         }
     });
 })();

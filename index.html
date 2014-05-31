@@ -21,6 +21,12 @@
 <script>
     var chr = new pcg.models.Character({
         race: pcg.races.get('halfOrc')
+
+    },
+    {
+        increaseAbility: {
+            'str': 2
+        }
     });
 
     var main = new pcg.views.CharacterMainSettingsView({

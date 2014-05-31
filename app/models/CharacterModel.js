@@ -29,6 +29,8 @@
                 will: 0
             },
 
+            maxHp: 4,
+
             freeSkillPoints: 0
         },
 
@@ -177,6 +179,14 @@
         initialize: function(data, args) {
             _.extend(this, args);
 
+            if (this.increaseAbility) {
+                for (var i in this.increaseAbility) {
+                    var newValue = this.get('abilitiesBase.'+i) + this.increaseAbility[i];
+
+                    this.set('abilitiesBase.'+i, newValue);
+                }
+            }
+
             this.levelsCollection = new pcg.collections.LevelsCollection();
             this.activeLevelsCollection = new pcg.collections.LevelsCollection();
             this.featuresCollection = new pcg.collections.FeaturesCollection();
@@ -198,7 +208,7 @@
                 this._setClassSkills();
                 this._setBaseAttack();
                 this._updateSkillsRanks();
-
+                this._updateMaxHp();
             }, this);
 
             this.featuresCollection.on('add remove reset', function() {
@@ -216,6 +226,7 @@
                 },
                 'change:strMod change:dexMod change:conMod change:intMod change:wisMod change:chaMod': function() {
                     this._updateSkills();
+                    this._updateMaxHp();
                 },
                 'change:level': function() {
                     this._updateSkillsRanks();
@@ -224,6 +235,18 @@
 
             this._setActiveFeatures();
             this._setSaveThrows();
+        },
+
+        _updateMaxHp: function() {
+            var hp = this.activeLevelsCollection.pluck('hp');
+
+            var result = 0;
+
+            for (var i = 0; i < hp.length; i++) {
+                result += hp[i];
+            }
+
+            this.set('maxHp', result);
         },
 
         _initSkills: function() {
@@ -265,7 +288,7 @@
         },
 
         _updateSkillsRanks: function() {
-            var skillsCollections = this.levelsCollection.map(function(level) {
+            var skillsCollections = this.activeLevelsCollection.map(function(level) {
                 return level.skillsCollection;
             }),
             skillsIds = pcg.skills.pluck('id'),
@@ -388,17 +411,38 @@
             return _.uniq(this.activeLevelsCollection.pluck('class'));
         },
 
-        _addLevel: function(level) {
+        _addLevel: function(level, wantSkillPoint) {
             level._character = this;
 
             level.initSkills();
+
+            if (!this.get('level')) {
+                level.setMaxHp();
+            } else {
+                level.initHp();
+            }
             //level._updateSkills();
 
+
+
+            var additionalPoints = 0,
+                skillPoints = this.get('intMod') + level.get('skillPointsPerLevel');
+
+            if (level.get('prefered')) {
+                if (wantSkillPoint) {
+                    additionalPoints = 1;
+                } else {
+                    level.set('hp', level.get('hp') +1);
+
+                    //this.set('hp', this.get('hp') + 1); //todo доработать
+
+                }
+            }
+
+
+            this.set('freeSkillPoints', this.get('freeSkillPoints') + skillPoints + additionalPoints);
+
             this.levelsCollection.add(level);
-
-            var skillPoints = this.get('freeSkillPoints') + this.get('intMod') + level.get('skillPointsPerLevel');
-
-            this.set('freeSkillPoints', this.get('freeSkillPoints') + skillPoints);
 
             return this.levelsCollection.length;
         },
@@ -413,7 +457,9 @@
 
             if (currentLevelsInClass.length) {
                 nextLevelOrder = currentLevelsInClass.length + 1;
-            } else {
+            }
+
+            if (!this.get('level')) {
                 this._preferedClassName = clss;
             }
 

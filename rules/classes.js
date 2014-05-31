@@ -19,7 +19,8 @@
                 pcg.skills.get('survival'),
                 pcg.skills.get('swim')
             ],
-            skillRanksPerLevel: 4
+            skillPointsPerLevel: 4,
+            hitDice: 12,
         }
     ]);
 })();

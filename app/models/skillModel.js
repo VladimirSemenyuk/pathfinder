@@ -35,7 +35,7 @@
             }
         },
 
-        setRank: function(rank) {
+        _setRank: function(rank) {
             this.set('rank', rank);
 
             if (this._character) {
@@ -46,12 +46,16 @@
         },
 
         addRank: function(delta) {
-            if (!this._character || (this.get('rank') + delta < 0)) {
+            var freePoints = this._character.get('freeSkillPoints');
+
+            if (!this._character || (this.get('rank') + delta < 0) || (freePoints - delta) < 0) {
                 return;
             }
 
             if (this._character.get('level') >= this.get('rank') + delta) {
-                return this.setRank(this.get('rank') + delta);
+                this._character.set('freeSkillPoints', freePoints - delta)
+
+                return this._setRank(this.get('rank') + delta);
             }
         },
 
